@@ -8,17 +8,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useRef } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
-// import { signup, login, logout, useAuth } from "../firebase";
-
-// import Profile from "../screens/ProfileScreen";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let [validationMessage, setValidationMessage] = React.useState("");
+
+  let validateAndSet = (value, valueToCompare, setValue) => {
+    if (value !== valueToCompare) {
+      setValidationMessage("Passwords do not match.");
+    } else {
+      setValidationMessage("");
+    }
+
+    setValue(value);
+  };
 
   const navigation = useNavigation();
 
