@@ -1,41 +1,92 @@
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
 import {
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
-  View,
-  KeyboardAvoidingView,
-  TouchableOpacity,
   TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import React from "react";
+import { useRef } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+// import { signup, login, logout, useAuth } from "../firebase";
+
+// import Profile from "../screens/ProfileScreen";
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigation = useNavigation();
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.replace("Home");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
         <TextInput
-          // placeholder="Email"
-          // value={email}
-          // onChangeText={text => setEmail(text)}
+          placeholder="Email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
           style={styles.input}
+          // ref={emailRef}
         />
         <TextInput
-          // placeholder="Password"
-          // value={password}
-          // onChangeText={text => setPassword(text)}
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
           style={styles.input}
+          // ref={passwordRef}
           secureTextEntry
         />
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          // onPress={handleLogin}
-          style={styles.button}
-        >
+        <TouchableOpacity onPress={handleLogin} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          // onPress={handleSignUp}
+          onPress={handleSignUp}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
