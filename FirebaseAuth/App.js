@@ -7,6 +7,7 @@ import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import TeamManagerScreen from "./screens/TeamManagerScreen";
 import NewGameScreen from "./screens/NewGameScreen";
+import GameManagerScreen from "./screens/GameManagerScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,11 @@ export default function App() {
         <Stack.Screen
           name="NewGame"
           component={NewGameScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="GameManager"
+          component={GameManagerScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

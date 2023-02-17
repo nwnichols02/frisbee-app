@@ -43,14 +43,30 @@ const HomeScreen = () => {
     });
   };
 
+  const navigateToNewGame = () => navigation.navigate("NewGame");
+  const navigateToTeamManager = () => navigation.navigate("TeamManager");
+  const navigateToGameManager = () => navigation.navigate("GameManager");
+
   return (
     <View style={styles.container}>
+      <View>
+        <Text style={styles.title}>Home Screen</Text>
+      </View>
       <Text>Email: {auth.currentUser?.email}</Text>
-      <TouchableOpacity onPress={addNewGame} style={styles.button}>
+      {/* <TouchableOpacity onPress={addNewGame} style={styles.button}>
         <Text style={styles.buttonText}>Add New Game</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity onPress={navigateToNewGame} style={styles.button}>
+        <Text style={styles.buttonText}>Create A New Game</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={retrieveGames} style={styles.button}>
+      {/* <TouchableOpacity onPress={retrieveGames} style={styles.button}>
         <Text style={styles.buttonText}>Retrieve Games</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity onPress={navigateToTeamManager} style={styles.button}>
+        <Text style={styles.buttonText}>Team Manger</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={navigateToGameManager} style={styles.button}>
+        <Text style={styles.buttonText}>Game Manager</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
@@ -80,5 +96,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

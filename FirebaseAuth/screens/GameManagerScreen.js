@@ -5,14 +5,23 @@ import { getAuth, signOut } from "firebase/auth";
 import { db } from "../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 
-const TeamManager = () => {
+const GameManager = () => {
   const navigation = useNavigation();
   const auth = getAuth();
   const navigateHome = () => navigation.navigate("Home");
+
+  const retrieveGames = async () => {
+    const querySnapshot = await getDocs(collection(db, "games"));
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+      console.log(doc.data);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Team Manger</Text>
+        <Text style={styles.title}>Game Manager</Text>
       </View>
       <Text>Email: {auth.currentUser?.email}</Text>
       {/* <TouchableOpacity onPress={addNewGame} style={styles.button}>
@@ -21,6 +30,9 @@ const TeamManager = () => {
       {/* <TouchableOpacity onPress={retrieveGames} style={styles.button}>
       <Text style={styles.buttonText}>Retrieve Games</Text>
     </TouchableOpacity>  */}
+      <TouchableOpacity onPress={retrieveGames} style={styles.button}>
+        <Text style={styles.buttonText}>Retrieve Games</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={navigateHome} style={styles.button}>
         <Text style={styles.buttonText}>Home</Text>
       </TouchableOpacity>
@@ -32,7 +44,7 @@ const TeamManager = () => {
   );
 };
 
-export default TeamManager;
+export default GameManager;
 
 const styles = StyleSheet.create({
   container: {
